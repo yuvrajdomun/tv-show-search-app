@@ -77,8 +77,9 @@ class EnhancedTVShowApp {
       helpButton: document.getElementById("help-button"),
       shortcutsHelp: document.getElementById("shortcuts-help"),
       closeShortcuts: document.getElementById("close-shortcuts"),
-      quickTags: document.querySelectorAll(".quick-tag"),
-      channelTags: document.querySelectorAll(".channel-tag"),
+      categoryItems: document.querySelectorAll(".category-item"),
+      genrePills: document.querySelectorAll(".genre-pill"),
+      clearFiltersBtn: document.getElementById("clear-filters"),
       toastContainer: document.getElementById("toast-container"),
     };
   }
@@ -152,22 +153,29 @@ class EnhancedTVShowApp {
         this.hideKeyboardShortcuts();
     });
 
-    // Quick search tags
-    this.elements.quickTags.forEach((tag) => {
-      tag.addEventListener("click", () => {
-        const searchTerm = tag.dataset.search;
-        this.elements.input.value = searchTerm;
-        this.performSearch(searchTerm);
-        this.hideQuickSearch();
+    // Category items (channels/streaming services)
+    this.elements.categoryItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        const channel = item.dataset.channel;
+        if (channel) {
+          this.searchByChannel(channel, item);
+        }
       });
     });
 
-    // Channel search tags
-    this.elements.channelTags.forEach((tag) => {
-      tag.addEventListener("click", () => {
-        const channel = tag.dataset.channel;
-        this.searchByChannel(channel, tag);
+    // Genre pills
+    this.elements.genrePills.forEach((pill) => {
+      pill.addEventListener("click", () => {
+        const genre = pill.dataset.search;
+        this.elements.input.value = genre;
+        this.performSearch(genre);
+        this.hideSearchInterface();
       });
+    });
+
+    // Clear filters button
+    this.elements.clearFiltersBtn.addEventListener("click", () => {
+      this.clearAllFilters();
     });
 
     // Suggestion navigation
@@ -308,52 +316,51 @@ class EnhancedTVShowApp {
 
     // Clear channel selection
     this.selectedChannel = null;
-    this.elements.channelTags.forEach((tag) => tag.classList.remove("active"));
+    this.elements.categoryItems.forEach((item) =>
+      item.classList.remove("active")
+    );
 
     // Clear favorites filter if active
     if (this.isShowingFavoritesOnly) {
       this.toggleFavoritesView();
     }
 
-    this.applyFilters();
+    // Clear search input
+    this.elements.input.value = "";
+    this.updateClearButton("");
+
+    // Clear results and show search interface
+    this.clearResults();
+    this.showSearchInterface();
+
     this.showToast("All filters cleared", "info");
   }
 
-  showQuickSearch() {
-    const quickSearch = document.querySelector(".quick-search");
-    const channelSearch = document.querySelector(".channel-search");
-    if (this.elements.input.value.trim() === "") {
-      if (quickSearch) {
-        quickSearch.style.display = "block";
-      }
-      if (channelSearch) {
-        channelSearch.style.display = "block";
-      }
+  showSearchInterface() {
+    const searchInterface = document.querySelector(".search-interface");
+    if (searchInterface && this.elements.input.value.trim() === "") {
+      searchInterface.style.display = "block";
     }
   }
 
-  hideQuickSearch() {
-    const quickSearch = document.querySelector(".quick-search");
-    const channelSearch = document.querySelector(".channel-search");
-    if (quickSearch) {
-      quickSearch.style.display = "none";
-    }
-    if (channelSearch) {
-      channelSearch.style.display = "none";
+  hideSearchInterface() {
+    const searchInterface = document.querySelector(".search-interface");
+    if (searchInterface) {
+      searchInterface.style.display = "none";
     }
   }
 
-  async searchByChannel(channel, clickedTag) {
+  async searchByChannel(channel, clickedItem) {
     try {
       // Update UI to show selected channel
-      this.elements.channelTags.forEach((tag) =>
-        tag.classList.remove("active")
+      this.elements.categoryItems.forEach((item) =>
+        item.classList.remove("active")
       );
-      clickedTag.classList.add("active");
+      clickedItem.classList.add("active");
       this.selectedChannel = channel;
 
       this.showLoading();
-      this.hideQuickSearch();
+      this.hideSearchInterface();
       this.searchStartTime = performance.now();
 
       // Search for shows by channel/network
@@ -422,7 +429,7 @@ class EnhancedTVShowApp {
     }
 
     if (!searchTerm || searchTerm.length < 2) {
-      this.showQuickSearch();
+      this.showSearchInterface();
       return;
     }
 
