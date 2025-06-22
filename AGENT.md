@@ -101,15 +101,28 @@ Follow [Semantic Versioning](https://semver.org/):
 
 ```
 /
-├── index.html          # Main HTML structure
+├── index.html          # Main HTML structure (GitHub Pages entry point)
 ├── styles.css          # All CSS styles
 ├── app.js             # Main JavaScript logic
 ├── README.md          # Project documentation
 ├── FUNCTIONALITY.md   # Feature documentation
 ├── AGENT.md          # This file
 ├── package.json      # Version and dependencies
-└── .gitignore        # Git ignore rules
+├── .gitignore        # Git ignore rules
+├── 404.html           # Custom 404 page for GitHub Pages (optional)
+├── robots.txt         # Search engine directives (optional)
+├── sitemap.xml        # Site structure for SEO (optional)
+└── favicon.ico        # Website icon
 ```
+
+### GitHub Pages Specific Files
+
+- **index.html**: Must be in root directory as entry point
+- **404.html**: Custom error page for better UX
+- **robots.txt**: Control search engine crawling
+- **sitemap.xml**: Help search engines index the site
+- **favicon.ico**: Website icon for browser tabs
+- **CNAME**: Custom domain configuration (if using custom domain)
 
 ### Code Structure
 
@@ -175,6 +188,17 @@ Follow [Semantic Versioning](https://semver.org/):
 - ✅ Measure user interaction metrics
 - ✅ Identify performance bottlenecks
 
+### GitHub Pages Performance
+
+- ✅ Keep total bundle size under 100KB for fast loading
+- ✅ Use CDN for external libraries (Axios via CDN)
+- ✅ Implement browser caching headers (automatic with GitHub Pages)
+- ✅ Optimize images and use modern formats (WebP, AVIF)
+- ✅ Minimize HTTP requests by combining resources
+- ✅ Use service workers for offline functionality (optional)
+- ✅ Implement preloading for critical resources
+- ✅ Monitor Core Web Vitals (LCP, FID, CLS)
+
 ## 🚀 Deployment Checklist
 
 ### Pre-Deployment
@@ -184,13 +208,82 @@ Follow [Semantic Versioning](https://semver.org/):
 - [ ] Version number incremented
 - [ ] Performance validated
 - [ ] Security review completed
+- [ ] GitHub Pages optimization completed (see below)
+
+### GitHub Pages Optimization
+
+#### **Static Site Requirements**
+
+- [ ] All file paths are relative (no absolute paths)
+- [ ] CDN links use HTTPS (for security and mixed content prevention)
+- [ ] No server-side dependencies (client-side only)
+- [ ] All external API calls use HTTPS endpoints
+- [ ] CORS-friendly API endpoints only (TVMaze API ✅)
+
+#### **Performance Optimization**
+
+- [ ] Images optimized for web delivery (WebP format preferred)
+- [ ] CSS and JS files optimized (minification optional for development)
+- [ ] Lazy loading implemented for images
+- [ ] Bundle size kept minimal (currently ~50KB total)
+- [ ] Caching strategies implemented (localStorage for user data)
+
+#### **SEO & Social Sharing**
+
+- [ ] Meta tags for description, keywords, and Open Graph
+- [ ] Favicon and app icons included (16x16, 32x32, 192x192)
+- [ ] Structured data markup (JSON-LD for web app)
+- [ ] Social media preview cards configured
+- [ ] Canonical URLs set correctly
+
+#### **GitHub Pages Specific**
+
+- [ ] Repository is public (required for free GitHub Pages)
+- [ ] Pages deployed from `main` branch root directory
+- [ ] Custom domain configured (if applicable)
+- [ ] HTTPS enabled (automatic with GitHub Pages)
+- [ ] 404.html page created for better error handling
+- [ ] robots.txt and sitemap.xml added (if needed)
+
+#### **Mobile & Accessibility**
+
+- [ ] Responsive design tested on multiple devices
+- [ ] Touch targets are at least 44px (accessibility)
+- [ ] Color contrast ratios meet WCAG AA standards
+- [ ] Keyboard navigation fully functional
+- [ ] Screen reader compatibility verified
+
+#### **Browser Compatibility**
+
+- [ ] Cross-browser testing completed (Chrome, Firefox, Safari, Edge)
+- [ ] Progressive enhancement implemented
+- [ ] Graceful degradation for older browsers
+- [ ] JavaScript polyfills added if needed
+
+### GitHub Pages Setup Commands
+
+```bash
+# Enable GitHub Pages (via GitHub web interface)
+# 1. Go to repository Settings
+# 2. Scroll to Pages section
+# 3. Source: Deploy from a branch
+# 4. Branch: main / (root)
+# 5. Save
+
+# Verify deployment
+# Site will be available at: https://username.github.io/repository-name
+```
 
 ### Post-Deployment
 
-- [ ] Functionality verified in production
-- [ ] Performance metrics checked
-- [ ] User feedback monitored
-- [ ] Error logging reviewed
+- [ ] Functionality verified in production environment
+- [ ] Performance metrics checked (Core Web Vitals)
+- [ ] User feedback monitored and addressed
+- [ ] Error logging reviewed (browser console)
+- [ ] GitHub Pages URL accessibility confirmed
+- [ ] Mobile responsiveness on live site verified
+- [ ] SEO indexing verified (Google Search Console)
+- [ ] Social sharing previews tested
 
 ## 🤝 Collaboration Guidelines
 
