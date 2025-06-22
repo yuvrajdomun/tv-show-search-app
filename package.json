@@ -1,0 +1,129 @@
+{
+  "name": "tv-show-search-app",
+  "version": "2.0.0",
+  "description": "Premium TV show search application with minimalist, channel-focused interface and advanced UX features",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8080 -o",
+    "dev": "npx live-server --port=8080",
+    "build": "echo 'No build process required for vanilla JS app'",
+    "test": "echo 'Manual testing required - see FUNCTIONALITY.md'",
+    "lint": "echo 'Code review checklist in AGENT.md'",
+    "version": "npm version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuvrajdomun/tv-show-search-app.git"
+  },
+  "keywords": [
+    "tv-shows",
+    "search",
+    "streaming",
+    "netflix",
+    "entertainment",
+    "javascript",
+    "responsive",
+    "minimalist",
+    "ui-ux",
+    "api",
+    "tvmaze"
+  ],
+  "author": {
+    "name": "Yuvraj Domun",
+    "url": "https://github.com/yuvrajdomun"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yuvrajdomun/tv-show-search-app/issues"
+  },
+  "homepage": "https://yuvrajdomun.github.io/tv-show-search-app",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {},
+  "files": [
+    "index.html",
+    "styles.css",
+    "app.js",
+    "README.md",
+    "FUNCTIONALITY.md",
+    "AGENT.md",
+    "LICENSE"
+  ],
+  "config": {
+    "api": {
+      "baseUrl": "https://api.tvmaze.com",
+      "timeout": 10000,
+      "retries": 3
+    },
+    "app": {
+      "maxResults": 50,
+      "debounceDelay": 300,
+      "toastDuration": 3000
+    }
+  },
+  "metadata": {
+    "features": [
+      "Real-time TV show search",
+      "Channel/Network filtering",
+      "Minimalist interface design",
+      "Favorites system with persistence",
+      "Advanced filtering and sorting",
+      "Keyboard shortcuts",
+      "Responsive design",
+      "Performance optimizations",
+      "Accessibility features"
+    ],
+    "technologies": [
+      "Vanilla JavaScript ES6+",
+      "Modern CSS with Grid & Flexbox",
+      "Axios for HTTP requests",
+      "TVMaze API integration",
+      "LocalStorage for persistence",
+      "Responsive design patterns"
+    ],
+    "architecture": {
+      "pattern": "Single Page Application (SPA)",
+      "structure": "Class-based with modular methods",
+      "styling": "Mobile-first responsive design",
+      "state": "Client-side with localStorage persistence"
+    }
+  },
+  "changelog": {
+    "2.0.0": {
+      "date": "2024-12-XX",
+      "changes": [
+        "✨ Minimalist search interface with channel categories",
+        "🎯 Channel-focused design separating streaming vs broadcast",
+        "🎨 Modern glassmorphism UI with gradient cards",
+        "📱 Enhanced mobile experience with touch-friendly design",
+        "🔧 Improved JavaScript architecture and event handling"
+      ],
+      "breaking": [
+        "Redesigned search interface (visual changes only)",
+        "Updated CSS class names for new components"
+      ]
+    },
+    "1.0.0": {
+      "date": "2024-12-XX",
+      "changes": [
+        "🔍 Initial TV show search functionality",
+        "⭐ Favorites system with localStorage",
+        "🎛️ Advanced filtering (genre, status, sorting)",
+        "⌨️ Keyboard shortcuts for power users",
+        "📱 Responsive design for all devices",
+        "🚀 Performance optimizations"
+      ]
+    }
+  }
+} 

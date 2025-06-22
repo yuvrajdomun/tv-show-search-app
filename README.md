@@ -198,17 +198,41 @@ To add more channel quick-search tags, edit the HTML in `index.html`:
 <button class="channel-tag" data-channel="Your Channel">🆕 Your Channel</button>
 ```
 
+## 📚 Documentation
+
+### Project Documentation
+
+- **[FUNCTIONALITY.md](./FUNCTIONALITY.md)** - Comprehensive function and feature documentation
+- **[AGENT.md](./AGENT.md)** - Development guidelines and best practices for contributors
+- **[LICENSE](./LICENSE)** - MIT License details
+
+### Version Information
+
+- **Current Version:** 2.0.0
+- **Architecture:** Vanilla JavaScript ES6+ with modern CSS
+- **API:** TVMaze API integration
+- **Browser Support:** Chrome 88+, Firefox 85+, Safari 14+, Edge 88+
+
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+Contributions are welcome! Please read our [development guidelines](./AGENT.md) before contributing.
 
 ### Development Setup
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+3. Follow the guidelines in [AGENT.md](./AGENT.md)
+4. Update [FUNCTIONALITY.md](./FUNCTIONALITY.md) for new features
+5. Commit your changes following our commit message format
+6. Push to the branch (`git push origin feature/AmazingFeature`)
+7. Open a Pull Request
+
+### Code Standards
+
+- Follow the patterns outlined in [AGENT.md](./AGENT.md)
+- Document all new functions in [FUNCTIONALITY.md](./FUNCTIONALITY.md)
+- Ensure responsive design and accessibility
+- Test across multiple browsers and devices
 
 ## 📄 License
 
