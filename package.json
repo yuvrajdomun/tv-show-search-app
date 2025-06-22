@@ -56,10 +56,13 @@
     "styles.css",
     "app.js",
     "analytics.js",
+    "config.js",
     "README.md",
     "FUNCTIONALITY.md",
     "AGENT.md",
     "ANALYTICS_SETUP.md",
+    "setup-analytics.md",
+    ".github/workflows/deploy.yml",
     "LICENSE"
   ],
   "config": {

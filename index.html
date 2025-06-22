@@ -6,24 +6,52 @@
     <title>TV Show Search App</title>
     <link rel="stylesheet" href="styles.css" />
 
-    <!-- Google Analytics 4 -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+    <!-- Configuration Management -->
+    <script src="config.js"></script>
 
-      // Replace GA_MEASUREMENT_ID with your actual Google Analytics 4 Measurement ID
-      gtag("config", "GA_MEASUREMENT_ID", {
-        page_title: "TV Show Search App",
-        page_location: window.location.href,
-        send_page_view: true,
-      });
+    <!-- Runtime Configuration (injected during build) -->
+    <script src="runtime-config.js"></script>
+
+    <!-- Google Analytics 4 (conditionally loaded) -->
+    <script>
+      // Only load analytics if enabled and measurement ID is available
+      if (
+        window.AppConfig &&
+        window.AppConfig.get("analytics.enabled") &&
+        window.AppConfig.get("analytics.measurementId")
+      ) {
+        const measurementId = window.AppConfig.get("analytics.measurementId");
+
+        // Dynamically load Google Analytics
+        const script = document.createElement("script");
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+        document.head.appendChild(script);
+
+        // Initialize gtag
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        window.gtag = gtag;
+
+        gtag("js", new Date());
+        gtag("config", measurementId, {
+          page_title: "TV Show Search App",
+          page_location: window.location.href,
+          send_page_view: true,
+          anonymize_ip: true,
+          allow_google_signals: false,
+          cookie_flags: "SameSite=Strict;Secure",
+        });
+
+        console.log(
+          "📊 Analytics initialized with ID:",
+          measurementId.substring(0, 5) + "***"
+        );
+      } else {
+        console.log("📊 Analytics disabled (development or no measurement ID)");
+      }
     </script>
 
     <!-- Analytics Module -->

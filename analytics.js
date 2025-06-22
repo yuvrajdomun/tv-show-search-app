@@ -9,12 +9,34 @@ class AnalyticsManager {
     this.userId = this.generateUserId();
     this.sessionId = this.generateSessionId();
     this.startTime = Date.now();
+    this.measurementId = null;
 
-    // Initialize analytics if GA4 is loaded
-    if (typeof gtag !== "undefined") {
-      this.isEnabled = true;
-      this.initializeGA4();
-    }
+    // Wait for configuration to be loaded
+    this.initializeWhenReady();
+  }
+
+  // Initialize when configuration is ready
+  initializeWhenReady() {
+    const checkConfig = () => {
+      if (window.AppConfig) {
+        this.measurementId = window.AppConfig.get("analytics.measurementId");
+        this.isEnabled =
+          window.AppConfig.get("analytics.enabled") &&
+          typeof gtag !== "undefined";
+
+        if (this.isEnabled) {
+          this.initializeGA4();
+          console.log("📊 AnalyticsManager initialized successfully");
+        } else {
+          console.log("📊 AnalyticsManager disabled (no config or gtag)");
+        }
+      } else {
+        // Retry after a short delay
+        setTimeout(checkConfig, 100);
+      }
+    };
+
+    checkConfig();
   }
 
   // Generate anonymous user ID
@@ -37,13 +59,15 @@ class AnalyticsManager {
 
   // Initialize GA4 with custom user properties
   initializeGA4() {
-    if (!this.isEnabled) return;
+    if (!this.isEnabled || !this.measurementId) return;
 
-    gtag("config", "GA_MEASUREMENT_ID", {
+    gtag("config", this.measurementId, {
       custom_map: {
         custom_parameter_1: "user_type",
       },
       user_id: this.userId,
+      anonymize_ip: true,
+      allow_google_signals: false,
     });
 
     // Set user properties
