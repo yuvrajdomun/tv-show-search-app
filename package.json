@@ -47,10 +47,12 @@
     "not dead",
     "not ie 11"
   ],
-  "dependencies": {
-    "axios": "^1.6.0"
-  },
+  "dependencies": {},
   "devDependencies": {},
+  "cdnDependencies": {
+    "axios": "https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js",
+    "note": "This is a static site using CDN dependencies loaded in index.html"
+  },
   "files": [
     "index.html",
     "styles.css",
