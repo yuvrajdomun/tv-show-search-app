@@ -17,7 +17,12 @@ class AnalyticsManager {
 
   // Initialize when configuration is ready
   initializeWhenReady() {
+    let attempts = 0;
+    const maxAttempts = 50; // 5 seconds maximum
+
     const checkConfig = () => {
+      attempts++;
+
       if (window.AppConfig) {
         this.measurementId = window.AppConfig.get("analytics.measurementId");
         this.isEnabled =
@@ -30,9 +35,13 @@ class AnalyticsManager {
         } else {
           console.log("📊 AnalyticsManager disabled (no config or gtag)");
         }
-      } else {
-        // Retry after a short delay
+      } else if (attempts < maxAttempts) {
         setTimeout(checkConfig, 100);
+      } else {
+        console.warn(
+          "📊 AnalyticsManager disabled: Configuration timeout after 5 seconds"
+        );
+        this.isEnabled = false;
       }
     };
 
