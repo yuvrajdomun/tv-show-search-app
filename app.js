@@ -34,6 +34,9 @@ class EnhancedTVShowApp {
     this.availableChannels = new Set();
     this.selectedChannel = null;
 
+    // Initialize analytics
+    this.analytics = new AnalyticsManager();
+
     // Configure Axios defaults
     axios.defaults.timeout = 10000;
 
@@ -50,6 +53,11 @@ class EnhancedTVShowApp {
       "Welcome! Start searching for TV shows or try a popular search.",
       "info"
     );
+
+    // Track session end on page unload
+    window.addEventListener("beforeunload", () => {
+      this.analytics.trackSessionEnd();
+    });
   }
 
   initializeElements() {
@@ -384,6 +392,7 @@ class EnhancedTVShowApp {
         // Fallback to search if no direct matches
         await this.searchChannelFallback(channel);
       } else {
+        this.analytics.trackChannelSearch(channel, this.currentResults.length);
         this.displayResults(this.currentResults, `shows on ${channel}`);
         this.showToast(
           `Found ${this.currentResults.length} shows on ${channel}`,
@@ -574,8 +583,19 @@ class EnhancedTVShowApp {
       });
 
       this.currentResults = response.data || [];
+
+      // Track search performance and results
+      const responseTime = performance.now() - this.searchStartTime;
+      this.analytics.trackSearch(
+        sanitizedTerm,
+        this.currentResults.length,
+        "text"
+      );
+      this.analytics.trackPerformance(sanitizedTerm, responseTime);
+
       this.displayResults(this.currentResults, sanitizedTerm);
     } catch (error) {
+      this.analytics.trackError("search_error", error.message);
       this.handleError(error);
     } finally {
       this.hideLoading();
@@ -666,12 +686,14 @@ class EnhancedTVShowApp {
       filtered = filtered.filter(
         (item) => item.show.genres && item.show.genres.includes(selectedGenre)
       );
+      this.analytics.trackFilterUsage("genre", selectedGenre);
     }
 
     // Apply status filter
     const selectedStatus = this.elements.statusFilter.value;
     if (selectedStatus) {
       filtered = filtered.filter((item) => item.show.status === selectedStatus);
+      this.analytics.trackFilterUsage("status", selectedStatus);
     }
 
     // Apply channel filter
@@ -816,6 +838,7 @@ class EnhancedTVShowApp {
       button.classList.remove("favorited");
       button.innerHTML = "☆";
       button.setAttribute("aria-label", "Add to favorites");
+      this.analytics.trackFavoriteAction(showId, show.name, "remove");
       this.showToast(`${show.name} removed from favorites`, "info");
     } else {
       this.favorites[showId] = {
@@ -827,6 +850,7 @@ class EnhancedTVShowApp {
       button.classList.add("favorited");
       button.innerHTML = "⭐";
       button.setAttribute("aria-label", "Remove from favorites");
+      this.analytics.trackFavoriteAction(showId, show.name, "add");
       this.showToast(`${show.name} added to favorites`, "success");
     }
 
@@ -857,6 +881,7 @@ class EnhancedTVShowApp {
   setViewMode(mode) {
     this.currentViewMode = mode;
     localStorage.setItem("tvshow_view_mode", mode);
+    this.analytics.trackViewModeChange(mode);
 
     if (mode === "grid") {
       this.elements.results.classList.remove("list-view");

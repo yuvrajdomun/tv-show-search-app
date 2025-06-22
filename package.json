@@ -55,9 +55,11 @@
     "index.html",
     "styles.css",
     "app.js",
+    "analytics.js",
     "README.md",
     "FUNCTIONALITY.md",
     "AGENT.md",
+    "ANALYTICS_SETUP.md",
     "LICENSE"
   ],
   "config": {
