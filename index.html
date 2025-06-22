@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TV Show Search App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>📺 TV Show Explorer</h1>
+        <p>Discover your next favorite TV series</p>
+      </header>
+
+      <main class="main">
+        <form id="search-form" class="search-form">
+          <div class="search-group">
+            <div class="input-wrapper">
+              <input
+                type="text"
+                name="search"
+                id="search-input"
+                placeholder="Search for TV shows..."
+                required
+                minlength="2"
+                class="search-input"
+                autocomplete="off"
+              />
+              <button
+                type="button"
+                id="clear-search"
+                class="clear-button hidden"
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+              <div
+                id="search-suggestions"
+                class="search-suggestions hidden"
+              ></div>
+            </div>
+            <button type="submit" class="search-button">
+              <span class="search-icon">🔍</span>
+              Search
+            </button>
+          </div>
+
+          <!-- Filters and Options -->
+          <div class="filters-section">
+            <div class="filter-group">
+              <label for="genre-filter">Genre:</label>
+              <select id="genre-filter" class="filter-select">
+                <option value="">All Genres</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="status-filter">Status:</label>
+              <select id="status-filter" class="filter-select">
+                <option value="">All Status</option>
+                <option value="Running">Running</option>
+                <option value="Ended">Ended</option>
+                <option value="To Be Determined">TBD</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="channel-filter">Channel/Network:</label>
+              <select id="channel-filter" class="filter-select">
+                <option value="">All Channels</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="sort-filter">Sort by:</label>
+              <select id="sort-filter" class="filter-select">
+                <option value="relevance">Relevance</option>
+                <option value="rating">Rating</option>
+                <option value="name">Name</option>
+                <option value="year">Year</option>
+              </select>
+            </div>
+            <button type="button" id="toggle-favorites" class="filter-button">
+              ⭐ Show Favorites Only
+            </button>
+          </div>
+        </form>
+
+        <!-- Quick Search Suggestions -->
+        <div class="quick-search">
+          <h3>Popular Searches:</h3>
+          <div class="quick-tags">
+            <button class="quick-tag" data-search="Breaking Bad">
+              Breaking Bad
+            </button>
+            <button class="quick-tag" data-search="Game of Thrones">
+              Game of Thrones
+            </button>
+            <button class="quick-tag" data-search="Friends">Friends</button>
+            <button class="quick-tag" data-search="The Office">
+              The Office
+            </button>
+            <button class="quick-tag" data-search="Stranger Things">
+              Stranger Things
+            </button>
+            <button class="quick-tag" data-search="The Walking Dead">
+              The Walking Dead
+            </button>
+          </div>
+
+          <!-- Channel Quick Search -->
+          <div class="channel-search">
+            <h4>Browse by Channel/Network:</h4>
+            <div class="channel-tags">
+              <button class="channel-tag" data-channel="Netflix">
+                📺 Netflix
+              </button>
+              <button class="channel-tag" data-channel="HBO">🎬 HBO</button>
+              <button class="channel-tag" data-channel="Amazon Prime Video">
+                🛒 Prime Video
+              </button>
+              <button class="channel-tag" data-channel="Disney+">
+                🏰 Disney+
+              </button>
+              <button class="channel-tag" data-channel="Hulu">📱 Hulu</button>
+              <button class="channel-tag" data-channel="Apple TV+">
+                🍎 Apple TV+
+              </button>
+              <button class="channel-tag" data-channel="NBC">📡 NBC</button>
+              <button class="channel-tag" data-channel="CBS">📺 CBS</button>
+              <button class="channel-tag" data-channel="ABC">🔤 ABC</button>
+              <button class="channel-tag" data-channel="FOX">🦊 FOX</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="loading" class="loading hidden">
+          <div class="spinner"></div>
+          <p>Searching for shows...</p>
+        </div>
+
+        <div id="error" class="error hidden">
+          <div class="error-icon">⚠️</div>
+          <h3>Something went wrong</h3>
+          <p id="error-message"></p>
+          <button id="retry-button" class="retry-button">Try Again</button>
+        </div>
+
+        <!-- Results Stats -->
+        <div id="results-stats" class="results-stats hidden">
+          <div class="stats-info">
+            <span id="results-count">0 results</span>
+            <span id="search-time"></span>
+          </div>
+          <div class="view-options">
+            <button
+              id="grid-view"
+              class="view-btn active"
+              aria-label="Grid view"
+            >
+              ⊞
+            </button>
+            <button id="list-view" class="view-btn" aria-label="List view">
+              ☰
+            </button>
+          </div>
+        </div>
+
+        <div id="results" class="results"></div>
+
+        <!-- Scroll to Top Button -->
+        <button
+          id="scroll-to-top"
+          class="scroll-to-top hidden"
+          aria-label="Scroll to top"
+        >
+          ↑
+        </button>
+
+        <!-- Keyboard Shortcuts Help -->
+        <div id="shortcuts-help" class="shortcuts-help hidden">
+          <div class="shortcuts-content">
+            <h3>⌨️ Keyboard Shortcuts</h3>
+            <div class="shortcuts-list">
+              <div class="shortcut">
+                <kbd>/</kbd>
+                <span>Focus search</span>
+              </div>
+              <div class="shortcut">
+                <kbd>Esc</kbd>
+                <span>Clear search / Close</span>
+              </div>
+              <div class="shortcut">
+                <kbd>↑ ↓</kbd>
+                <span>Navigate suggestions</span>
+              </div>
+              <div class="shortcut">
+                <kbd>Enter</kbd>
+                <span>Select / Search</span>
+              </div>
+              <div class="shortcut">
+                <kbd>F</kbd>
+                <span>Toggle favorites</span>
+              </div>
+              <div class="shortcut">
+                <kbd>C</kbd>
+                <span>Clear all filters</span>
+              </div>
+              <div class="shortcut">
+                <kbd>?</kbd>
+                <span>Show/hide shortcuts</span>
+              </div>
+            </div>
+            <button id="close-shortcuts" class="close-shortcuts">Close</button>
+          </div>
+        </div>
+
+        <!-- Help Button -->
+        <button
+          id="help-button"
+          class="help-button"
+          aria-label="Show keyboard shortcuts"
+        >
+          ?
+        </button>
+      </main>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
