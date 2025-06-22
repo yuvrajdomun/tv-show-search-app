@@ -560,7 +560,7 @@ class EnhancedTVShowApp {
 
       this.showLoading();
       this.hideError();
-      this.hideQuickSearch();
+      this.hideSearchInterface();
       this.hideSuggestions();
 
       // Add to search history
