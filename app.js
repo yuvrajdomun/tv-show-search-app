@@ -37,6 +37,11 @@ class EnhancedTVShowApp {
     // Initialize analytics
     this.analytics = new AnalyticsManager();
 
+    // Initialize responsive enhancements
+    if (window.ResponsiveEnhancements) {
+      this.responsiveEnhancements = new ResponsiveEnhancements(this);
+    }
+
     // Configure Axios defaults
     axios.defaults.timeout = 10000;
 
